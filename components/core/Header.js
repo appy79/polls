@@ -1,6 +1,9 @@
+import { session } from "next-auth/client";
 import { useState } from "react";
+import {signIn, signOut, useSession} from "next-auth/client"
 
 function Header() {
+  const [session, loading] = useSession();
   const [isOpen, setisOpen] = useState(false);
 
   function navHandle() {
@@ -9,7 +12,7 @@ function Header() {
   return (
     <nav className="flex items-center justify-between flex-wrap bg-blue-0 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
-        <span className="font-semibold text-xl tracking-tight">POLLS</span>
+        <a href="/"><span className="font-semibold text-xl tracking-tight">POLLS</span></a>
       </div>
       <div className="block lg:hidden">
         <button
@@ -51,14 +54,14 @@ function Header() {
             Blog
           </a>
         </div>
-        <div>
+        {session && <div>
           <a
-            href="#"
-            className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
+            href="update"
+            className="inline-block text-sm px-4 py-2 leading-none text-white lg:mt-0"
           >
-            Download
+            {session.user.name}
           </a>
-        </div>
+        </div>}
       </div>
     </nav>
   );

@@ -1,45 +1,32 @@
 import React from "react";
-import EmailForm from "../components/user/EmailForm";
-import InfoForm from "../components/user/Info";
-import VerificationForm from "../components/user/VerificationForm";
+import RegisterForm from "../components/user/RegsiterForm";
 import { useState } from "react";
 
 function register() {
 
-    const [sent, setSent] = useState(false);
-    const [verified, setVerified] = useState(false);
-
-    const sendmail = async (roll) =>{
-        const email = `${roll}@nitt.edu`;
-        var data = {
-            "email":email
+    const adduser = async (name, roll, pass) =>{
+        const email = `${roll}@nitt.edu`
+        var newPerson = {
+            "email":email,
+            "password":pass,
+            "name":name
         }
-        const response = await fetch("/api/verify", {
+      
+        const response = await fetch("/api/member", {
             method: "POST",
-            body: JSON.stringify(data),
+            body: JSON.stringify(newPerson),
             headers: {
               "Content-Type": "application/json",
             },
         });
         const res = await response.json();
-        console.log(res.code);
-    }
-
-    const verify = async (code) =>{
-
-    }
-
-    const adduser = async (nam) =>{
-
     }
 
 
 
     return (
         <div>
-            <EmailForm onChange={sendmail} />
-            { sent && <VerificationForm onChange = {verify} /> }
-            { verified && <InfoForm onChange = {adduser} /> }
+            <RegisterForm onChange = {adduser} /> 
         </div>
     );
 }
