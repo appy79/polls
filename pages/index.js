@@ -1,24 +1,25 @@
 import Head from 'next/head'
 import {signIn, signOut, useSession} from "next-auth/client"
+import AllPolls from '../components/polls/AllPolls';
 
 
-export default function Home() {
+
+export default function Home({data}) {
   const [session, loading] = useSession();
   return (
     <div className="text-white">
-      {!session && (
-        <>
-          Not Signed In<br/>
-          <button onClick={signIn}>Sign In</button>
-        </>
-      )}
-      {session && (
-        <>
-        Signed in as {session.user.email} <br/>
-        <div> Access secrets </div>
-        <button onClick={signOut} >Sign Out</button>
-        </>
-      )}
+      <AllPolls polls={data.data} />
     </div>
   )
+}
+
+export async function getServerSideProps(ctx){
+  const URL = process.env.NEXTAUTH_URL
+  const response = await fetch(URL + "/api/polls");
+  const data = await response.json();
+  return {
+    props: {
+      data: data,
+    },
+  };
 }

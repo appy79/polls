@@ -12,7 +12,7 @@ function register() {
             "name":name
         }
       
-        const response = await fetch("/api/member", {
+        const response = await fetch("/api/users/member", {
             method: "POST",
             body: JSON.stringify(newPerson),
             headers: {

@@ -19,7 +19,7 @@ function RegisterForm(props) {
         var data = {
             "email":email
         }
-        const response = await fetch("/api/verify", {
+        const response = await fetch("/api/users/verify", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -27,9 +27,14 @@ function RegisterForm(props) {
             },
         });
         const res = await response.json();
-        setFcode(res.code);
-        setSent(true);
-        alert("Email has been sent to your webmail. Please check the code received.");
+        if(res.success){
+            setFcode(res.code);
+            setSent(true);
+            alert("Email has been sent to your webmail. Please check the code received.");
+        }
+        else{
+            alert("User already exists!");
+        }
     }
 
     const verify = (e) => {

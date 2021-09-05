@@ -11,16 +11,22 @@ function signin({csrfToken}) {
 
       e.preventDefault();
 
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: email,
-        password: pass,
-      });
-      if(res.ok){
-        Router.push('/')
+      if(!email, !pass){
+        alert("No field can be left blank");
       }
+
       else{
-        alert("Invalid Credentials")
+        const res = await signIn("credentials", {
+          redirect: false,
+          email: email,
+          password: pass,
+        });
+        if(res.ok){
+          Router.push('/')
+        }
+        else{
+          alert("Invalid Credentials")
+        }
       }
     }
 
