@@ -5,7 +5,7 @@ import {connectToDatabase} from "../../../lib/mongodb";
 const options = {
     providers: [
         Providers.Credentials({
-            name: "Poll Sys",
+            name: "Credentials",
             credentials:{
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" }
@@ -17,6 +17,9 @@ const options = {
             }
         })
     ],
+    pages:{
+        signIn:"/auth/signin"
+    },
     session:{
         jwt:true,
     }

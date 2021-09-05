@@ -18,5 +18,8 @@
     "autoprefixer": "^10.2.6",
     "postcss": "^8.3.5",
     "tailwindcss": "^2.2.4"
+  },
+  "browser": {
+    "crypto": false
   }
 }
