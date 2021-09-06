@@ -1,15 +1,16 @@
 import React from "react";
 import RegisterForm from "../components/user/RegsiterForm";
-import { useState } from "react";
+import Router from 'next/router'
+
 
 function register() {
-
     const adduser = async (name, roll, pass) =>{
         const email = `${roll}@nitt.edu`
         var newPerson = {
-            "email":email,
-            "password":pass,
-            "name":name
+            "roll": roll,
+            "email": email,
+            "password": pass,
+            "name": name
         }
       
         const response = await fetch("/api/users/member", {
@@ -20,6 +21,7 @@ function register() {
             },
         });
         const res = await response.json();
+        Router.push('/auth/signin')
     }
 
 

@@ -1,3 +1,4 @@
+import { v4 } from "uuid";
 import { connectToDatabase } from "../../../lib/mongodb";
 
 export default async function handler(req, res){
@@ -7,9 +8,16 @@ export default async function handler(req, res){
     switch (method) {
         case "POST":
             try {
-                const inserted = await db.collection("members").insertOne(req.body);
-                let id = inserted.insertedId
-                const member = await db.collection("members").findOne({ _id: id });
+                const member = {
+                    _id: v4(),
+                    roll: req.body.roll,
+                    email: req.body.email,
+                    password: req.body.password,
+                    name: req.body.name,
+                    voted: [],
+                    created: []
+                }
+                const response = await db.collection("members").insertOne(member);
                 res.status(201).json({ success: true, data: member});
             } catch (error) {
                 res.status(400).json({ success: false });

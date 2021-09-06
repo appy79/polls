@@ -22,7 +22,8 @@ const options = {
     },
     session:{
         jwt:true,
-    }
+    },
+    
 }
 
 export default (req, res) => NextAuth(req, res, options);

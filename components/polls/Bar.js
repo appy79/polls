@@ -13,7 +13,7 @@ function Bar({width, active, rc1, rc2}) {
     });
 
     return (
-                <div className="rounded-sm border w-full">
+                <div className="rounded-sm border w-full text-center">
                     <animated.div className="rounded-sm " style= {vals}>{vals.value.to(x => Math.floor(x))}</animated.div>
                 </div>
     );

@@ -7,8 +7,8 @@ function AllPolls(props) {
         ? "No polls to Display"
         : props.polls.map((poll) => {
             return (
-              <div key={poll._id} className="m-8 border w-2/3 mx-auto p-8">
-                <Poll title={poll.title} total={poll.total} values={poll.values} />
+              <div key={poll._id} className="m-8 border w-11/12 md:w-2/3 mx-auto p-8">
+                <Poll poll={poll} />
               </div>
             );
           })}

@@ -35,27 +35,37 @@ function Header() {
         } `}
       >
         <div className="text-sm lg:flex-grow">
-          <a
+          {!session &&
+            <> 
+            <a
             href="/register"
             className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
-          >
-            Register
-          </a>
-          {!session && 
+            >
+              Register
+            </a>
             <a
             href="/auth/signin"
             className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
             >
               SignIn
             </a>
+            </>
           }
           {session && 
+            <>
+            <a 
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+            href="/createpoll"
+            >
+              Create Poll
+            </a>
             <button
             onClick={signOut}
-            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white"
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
             >
               Logout
             </button>
+            </>
           }
           
         </div>
