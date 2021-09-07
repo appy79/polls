@@ -7,7 +7,7 @@ import AllPolls from '../components/polls/AllPolls';
 export default function Home({data}) {
   const [session, loading] = useSession();
   return (
-    <div className="text-white">
+    <div className="">
       <AllPolls polls={data.data} />
     </div>
   )

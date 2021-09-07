@@ -102,7 +102,7 @@ function PollForm(props) {
 
                 <div className="text-center">
                     <button
-                    className="shadow bg-purple-500 hover:bg-Purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 ml-3 rounded"
+                    className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 ml-3 rounded"
                     onClick={create}
                     >
                     Create
