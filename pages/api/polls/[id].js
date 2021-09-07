@@ -58,8 +58,13 @@ export default async (req, res) => {
           if (!poll) {
             return res.status(400).json({ success: false, data: "poll not found" });
           }
-          const deletePoll = await db.collection("polls").deleteOne({ _id: id });
-          res.status(200).json({ success: true, data: poll });
+          else if(session.user.email !== poll.creator){
+            res.status(403).json({success:false, error: "Not your Poll." })
+          }
+          else{
+            const deletePoll = await db.collection("polls").deleteOne({ _id: id });
+            res.status(200).json({ success: true, data: poll });
+          } 
         } catch (error) {
           res.status(400).json({ success: false });
           console.log(error)

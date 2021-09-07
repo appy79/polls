@@ -4,15 +4,19 @@ import { connectToDatabase } from "../../../lib/mongodb";
 export default async function handler(req, res){
     const {db} = await connectToDatabase();
 
+    const bcrypt = require('bcrypt');
+    const saltRounds = 8;
+
     const { method } = req;
     switch (method) {
         case "POST":
+            const hashpass = await bcrypt.hash(req.body.password, saltRounds);
             try {
                 const member = {
                     _id: v4(),
                     roll: req.body.roll,
                     email: req.body.email,
-                    password: req.body.password,
+                    password: hashpass,
                     name: req.body.name,
                     voted: [],
                     created: []

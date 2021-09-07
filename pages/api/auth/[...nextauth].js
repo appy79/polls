@@ -11,9 +11,16 @@ const options = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials){
+                const bcrypt = require('bcrypt');
                 const {db} = await connectToDatabase();
-                const user = await db.collection("members").findOne({email:credentials.email, password:credentials.password});
-                return user;
+                const user = await db.collection("members").findOne({email:credentials.email});
+                const compare = await bcrypt.compare(credentials.password, user.password);
+                if(compare){
+                    return user;
+                }
+                else{
+                    return null;
+                }
             }
         })
     ],

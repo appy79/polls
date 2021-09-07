@@ -37,7 +37,7 @@ function PollForm(props) {
             const newPoll = {
                 "title": title,
                 "choices": choices,
-                "creator": session.user.name + " (" + session.user.email + ")"
+                "creator": session.user.email
             }
             props.onCreate(newPoll);
             setTitle("");

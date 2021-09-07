@@ -37,7 +37,12 @@ export default async function handler(req, res){
                     }))
                 }
                 try {
-                    const response = await db.collection("polls").insertOne(poll);
+                    const crpoll = await db.collection("polls").insertOne(poll);
+                    const addToUser = await db.collection("members").updateOne({
+                        email: session.user.email,
+                    }, {
+                        $push: { created: poll._id }
+                    });
                     res.status(201).json({ success: true, poll:poll});
                 } catch (error) {
                     res.status(400).json({ success: false });
