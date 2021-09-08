@@ -4,11 +4,11 @@ import AllPolls from '../components/polls/AllPolls';
 
 
 
-export default function Home({data}) {
+export default function Home({polls}) {
   const [session, loading] = useSession();
   return (
     <div className="">
-      <AllPolls polls={data.data} />
+      <AllPolls polls={polls} />
     </div>
   )
 }
@@ -19,7 +19,7 @@ export async function getServerSideProps(ctx){
   const data = await response.json();
   return {
     props: {
-      data: data,
+      polls: data.data.reverse(),
     },
   };
 }

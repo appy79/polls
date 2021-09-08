@@ -1,9 +1,9 @@
 import Poll from "./Poll";
 import {useState} from "react";
 
-function AllPolls(props) {
+function AllPolls({polls}) {
 
-  const [allpolls, setAllpolls] = useState(props.polls)
+  const [allpolls, setAllpolls] = useState(polls)
   
   const del = (poll) => {
     setAllpolls(

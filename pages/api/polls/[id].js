@@ -33,6 +33,9 @@ export default async (req, res) => {
           if (!poll) {
             return res.status(400).json({ success: false, data: "poll not found" });
           }
+          else if(poll.voted.includes(session.user.id)){
+            return res.status(400).json({ success: false, data: "Already Voted." });
+          }
           
           const updatedPoll = await db.collection("polls").updateOne( {
               _id: id, 
