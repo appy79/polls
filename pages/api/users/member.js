@@ -22,7 +22,7 @@ export default async function handler(req, res){
                     created: []
                 }
                 const response = await db.collection("members").insertOne(member);
-                res.status(201).json({ success: true, data: member});
+                res.status(201).json({ success: true});
             } catch (error) {
                 res.status(400).json({ success: false });
             }

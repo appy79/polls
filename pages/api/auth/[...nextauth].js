@@ -30,7 +30,24 @@ const options = {
     session:{
         jwt:true,
     },
-    
+    callbacks: {
+        jwt: async (token, user, account, profile, isNewUser) => {
+            if (user) {
+              token.uid = user._id;
+              token.roll = user.roll;
+              token.voted = user.voted;
+              token.created = user.created;
+            }
+            return Promise.resolve(token);
+        },
+        session: async (session, user, _sessionToken) => {
+            session.user.id = user.uid;
+            session.user.roll = user.roll;
+            session.user.voted = user.voted;
+            session.user.created = user.created;
+            return Promise.resolve(session);
+        },
+    },
 }
 
 export default (req, res) => NextAuth(req, res, options);

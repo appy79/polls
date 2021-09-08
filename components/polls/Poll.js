@@ -5,6 +5,9 @@ import {useSpring, animated} from "react-spring";
 
 function Poll({poll, del}) {
     const [active, setActive] = useState(false)
+    const [voted, setVoted] = useState(false)
+    const [choices, setChoices] = useState(poll.choices)
+    const [total, setTotal] = useState(poll.total)
     const [session, loading] = useSession()
     const creator = session? session.user.email == poll.creator : false
 
@@ -22,9 +25,29 @@ function Poll({poll, del}) {
         }
     }
 
-    const vote = () => {
-
+    const vote = async (choiceid) => {
+        const body = {
+            choice: choiceid
+        }
+        const response = await fetch("/api/polls/"+poll._id, {
+            method: "PUT",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            });
+        const res = await response.json();
+        if(res.success){
+            setVoted(true);
+            setTotal(total+1)
+            const newChoices = choices;
+            const choiceIndex = newChoices.findIndex((choice => choice._id == choiceid));
+            newChoices[choiceIndex].count+=1;
+            setChoices(newChoices);
+        }       
     }
+
+    
 
     return (
         <div className="mx-auto">
@@ -32,9 +55,9 @@ function Poll({poll, del}) {
                 <p className="flex-grow text-xl ml-4">{poll.title}</p>
                 <button onClick={ () => { setActive(!active) }} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 ml-3 max-h-10 rounded">{active ? "Hide" : "Results"}</button>
             </div>
-            { poll.choices.map((choice) => {
+            { choices.map((choice) => {
 
-                const value = choice.count==0 ? 0 :Math.floor(choice.count*100/poll.total)
+                const value = choice.count==0 ? 0 :Math.floor(choice.count*100/total)
 
                 const aval =  useSpring({
                     value: active ? value : 0,
@@ -56,15 +79,15 @@ function Poll({poll, del}) {
                                     <p>%</p>
                                 </div>
                             }
-                            {session &&
-                            <button onClick={vote} className="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 ml-3 rounded">Vote</button>
+                            {session && !voted && !(poll.voted.includes(session.user.id)) &&
+                            <button onClick={(e) => { vote(choice._id)}} className="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 ml-3 rounded">Vote</button>
                             }
                         </div>
                     </div>
                 )
             })}
             <div className="flex">
-                <p className="block text-gray-500 font-bold pr-4 flex-grow">{poll.total} Votes</p>
+                <p className="block text-gray-500 font-bold pr-4 flex-grow">{total} Votes</p>
                 {creator && 
                     <button onClick={remove} className="shadow bg-red-500 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 ml-3 rounded">Delete</button>
                 }

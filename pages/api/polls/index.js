@@ -30,6 +30,7 @@ export default async function handler(req, res){
                     title: req.body.title,
                     creator: req.body.creator,
                     total: 0,
+                    voted: [],
                     choices: req.body.choices.map(choice => ({
                         _id: v4(),
                         name: choice,
@@ -39,11 +40,11 @@ export default async function handler(req, res){
                 try {
                     const crpoll = await db.collection("polls").insertOne(poll);
                     const addToUser = await db.collection("members").updateOne({
-                        email: session.user.email,
+                        _id: session.user.id,
                     }, {
                         $push: { created: poll._id }
                     });
-                    res.status(201).json({ success: true, poll:poll});
+                    res.status(201).json({ success: true});
                 } catch (error) {
                     res.status(400).json({ success: false });
                 }

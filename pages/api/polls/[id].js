@@ -33,16 +33,24 @@ export default async (req, res) => {
           if (!poll) {
             return res.status(400).json({ success: false, data: "poll not found" });
           }
-  
+          
           const updatedPoll = await db.collection("polls").updateOne( {
               _id: id, 
               'choices._id':req.body.choice 
-          }, { 
+            }, { 
               $inc:{
                  'choices.$.count': 1,
                  'total': 1 
-              }});
-          res.status(200).json({ success: true, data: updatedPoll });
+              },
+              $push: { voted: session.user.id }
+            });
+
+          const addToUser = await db.collection("members").updateOne({
+                _id: session.user.id,
+            }, {
+                $push: { voted: poll._id }
+            });
+          res.status(200).json({ success: true });
         } catch (error) {
           res.status(400).json({ success: false});
         }
@@ -63,7 +71,7 @@ export default async (req, res) => {
           }
           else{
             const deletePoll = await db.collection("polls").deleteOne({ _id: id });
-            res.status(200).json({ success: true, data: poll });
+            res.status(200).json({ success: true });
           } 
         } catch (error) {
           res.status(400).json({ success: false });
