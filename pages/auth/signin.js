@@ -93,7 +93,8 @@ function signin({csrfToken}) {
                         />
                     </div>
                 </div>
-                </form>  
+                <p className="text-sm">Note: Please use your webmail (rollno@nitt.edu) in email field.</p>  
+                </form>
             </div>
         </div>  
     );

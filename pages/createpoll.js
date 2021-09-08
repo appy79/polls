@@ -4,6 +4,7 @@ import { getSession, signIn } from "next-auth/client";
 import { useState, useEffect } from "react";
 
 function createpoll() {
+    const Router = useRouter();
 
     const [loading, setLoading] = useState(true)
 
@@ -35,7 +36,7 @@ function createpoll() {
         });
         const res = await response.json();
         if(res.success){
-            alert("Poll Created")
+            Router.push("/");
         }
         else{
             console.log(res);
